@@ -36,8 +36,8 @@ jobs:
           command: >
             sudo gcloud firebase test android run \
               --type instrumentation \
-              --app app/build/outputs/apk/debug/app-debug.apk \
-              --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+              --app app/build/outputs/apk/dev/debug/app-dev-debug.apk \
+              --test app/build/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
               --results-bucket circle-test-reports \
               --results-dir $CIRCLE_BUILD_NUM
       - run:
