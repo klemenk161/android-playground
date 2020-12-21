@@ -5,13 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="dev.klemen.android.playground.ui.MainViewModel" />
+            type="dev.klemen.android.playground.ui.main.MainViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainFragment">
+        tools:context=".ui.main.MainFragment">
 
         <TextView
             android:id="@+id/mainProgress"

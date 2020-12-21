@@ -1,4 +1,4 @@
-package dev.klemen.android.playground.base
+package dev.klemen.android.playground.ui.base
 
 import android.app.Application
 import android.content.Context

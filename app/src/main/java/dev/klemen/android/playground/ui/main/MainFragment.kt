@@ -1,12 +1,14 @@
-package dev.klemen.android.playground.ui
+package dev.klemen.android.playground.ui.main
 
 import android.os.Bundle
+import dagger.hilt.android.AndroidEntryPoint
 import dev.klemen.android.playground.R
-import dev.klemen.android.playground.base.BaseFragment
+import dev.klemen.android.playground.ui.base.BaseFragment
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+@AndroidEntryPoint
 class MainFragment : BaseFragment<MainViewModel>(MainViewModel::class, R.layout.fragment_main) {
 
     private var param1: String? = null
