@@ -46,4 +46,3 @@ jobs:
           path: ~/gsutil/
       - store_test_results:
           path: ~/gsutil/
-
