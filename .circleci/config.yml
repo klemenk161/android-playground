@@ -1,0 +1,49 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@0.2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/android:api-30
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - run:
+          name: Build debug APK and debug-test APK
+          command: |
+            sudo chmod +x gradlew
+            ./gradlew :app:assembleDebug
+            ./gradlew :app:assembleDebugAndroidTest
+      - run:
+          name: Store Google Service Account
+          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+      - run:
+          name: Authorize gcloud and set config defaults
+          command: |
+            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+      - run:
+          name: Test with Firebase Test Lab
+          command: >
+            sudo gcloud firebase test android run \
+              --type instrumentation \
+              --app app/build/outputs/apk/debug/app-debug.apk \
+              --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+              --results-bucket circle-test-reports \
+              --results-dir $CIRCLE_BUILD_NUM
+      - run:
+          name: Install gsutil dependency and copy test results data
+          command: |
+            sudo pip install -U crcmod
+            mkdir -p ~/gsutil/
+            echo `gs://circle-test-reports/${CIRCLE_BUILD_NUM}`
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://circle-test-reports/${CIRCLE_BUILD_NUM}/ 2> /dev/null || true` ~/gsutil/ | true
+      - store_artifacts:
+          path: ~/gsutil/
+      - store_test_results:
+          path: ~/gsutil/
+
