@@ -84,7 +84,7 @@ class MainFragmentTest {
 
     @Test
     fun correctSetup() {
-        coEvery { mockNetworkRunner.runTask() } coAnswers { delay(SIMULATED_NETWORK_DELAY); TaskResult.Completed }
+        coEvery { mockNetworkRunner.runTask() } returns TaskResult.Completed
 
         testDispatcher.pauseDispatcher()
         ActivityScenario.launch<TestActivity>(launchIntent)
