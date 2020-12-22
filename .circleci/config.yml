@@ -13,6 +13,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Copy Google-Services JSON into App folder
+          command: |
+            echo $GOOGLE_SERVICES_JSON > app/google-services.json
+      - run:
           name: Run Detekt and check codebase
           command: |
             sudo chmod +x gradlew
@@ -21,8 +25,8 @@ jobs:
           name: Build debug APK and debug-test APK
           command: |
             sudo chmod +x gradlew
-            ./gradlew :app:assembleDebug
-            ./gradlew :app:assembleDebugAndroidTest
+            ./gradlew :app:assembleDevDebug
+            ./gradlew :app:assembleDevDebugAndroidTest
       - run:
           name: Store Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
@@ -36,8 +40,10 @@ jobs:
           command: >
             sudo gcloud firebase test android run \
               --type instrumentation \
-              --app app/build/outputs/apk/debug/app-debug.apk \
-              --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+              --device version=28 \
+              --use-orchestrator \
+              --app app/build/outputs/apk/dev/debug/app-dev-debug.apk \
+              --test app/build/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
               --results-bucket circle-test-reports \
               --results-dir $CIRCLE_BUILD_NUM
       - run:

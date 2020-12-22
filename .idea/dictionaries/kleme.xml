@@ -2,6 +2,10 @@
   <dictionary name="kleme">
     <words>
       <w>gcloud</w>
+<<<<<<< HEAD
+=======
+      <w>klemen</w>
+>>>>>>> development
     </words>
   </dictionary>
 </component>

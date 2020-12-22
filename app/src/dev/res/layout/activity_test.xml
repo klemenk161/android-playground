@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".TestActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/mainFragmentContainer"
+        android:id="@+id/testFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
