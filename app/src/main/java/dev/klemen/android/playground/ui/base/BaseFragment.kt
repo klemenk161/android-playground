@@ -29,9 +29,9 @@ abstract class BaseFragment<VM : ViewModel>(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         /*
-            1. Create the binding using the DataBindingUtil.
+            1. Create the binding, using the DataBindingUtil.
             2. Attach the Fragment as the lifecycleOwner.
-            3. Set generic viewModel variable, which every BaseFragment dataBinding will contain.
+            3. Set generic viewModel variable, which every BaseFragment dataBinding layout will include.
         */
         return DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, container, false)
             .apply {
