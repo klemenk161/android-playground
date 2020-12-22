@@ -36,6 +36,7 @@ jobs:
           command: >
             sudo gcloud firebase test android run \
               --type instrumentation \
+              --use-orchestrator \
               --app app/build/outputs/apk/dev/debug/app-dev-debug.apk \
               --test app/build/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
               --results-bucket circle-test-reports \
