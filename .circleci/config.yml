@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: google/cloud-sdk
+      - image: circleci/android:api-26-ndk
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD
@@ -19,11 +19,12 @@ jobs:
       - run:
           name: Run Detekt and check codebase
           command: |
-            chmod +x ./gradlew
+            sudo chmod +x gradlew
             ./gradlew detekt
       - run:
           name: Build debug APK and debug-test APK
           command: |
+            sudo chmod +x gradlew
             ./gradlew :app:assembleDevDebug
             ./gradlew :app:assembleDevDebugAndroidTest
       - run:
@@ -32,12 +33,12 @@ jobs:
       - run:
           name: Authorize gcloud and set config defaults
           command: |
-            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - run:
           name: Test with Firebase Test Lab
           command: >
-            gcloud firebase test android run \
+            sudo gcloud firebase test android run \
               --type instrumentation \
               --use-orchestrator \
               --app app/build/outputs/apk/dev/debug/app-dev-debug.apk \
@@ -47,10 +48,10 @@ jobs:
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
-            pip install -U crcmod
+            sudo pip install -U crcmod
             mkdir -p ~/gsutil/
             echo `gs://circle-test-reports/${CIRCLE_BUILD_NUM}`
-            gsutil -m cp -r -U `gsutil ls gs://circle-test-reports/${CIRCLE_BUILD_NUM}/ 2> /dev/null || true` ~/gsutil/ | true
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://circle-test-reports/${CIRCLE_BUILD_NUM}/ 2> /dev/null || true` ~/gsutil/ | true
       - store_artifacts:
           path: ~/gsutil/
       - store_test_results:
