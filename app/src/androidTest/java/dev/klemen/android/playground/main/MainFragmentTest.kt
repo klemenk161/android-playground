@@ -97,19 +97,25 @@ class MainFragmentTest {
 
     @Test
     fun taskSuccessful() {
+        // Arrange
         coEvery { mockNetworkRunner.runTask() } returns TaskResult.Success
 
+        // Act
         ActivityScenario.launch<TestActivity>(launchIntent)
 
+        // Assert
         onView(withId(R.id.mainProgress)).check(matches(withText(R.string.task_success)))
     }
 
     @Test
     fun taskFailed() {
+        // Arrange
         coEvery { mockNetworkRunner.runTask() } returns TaskResult.Failure
 
+        // Act
         ActivityScenario.launch<TestActivity>(launchIntent)
 
+        // Assert
         onView(withId(R.id.mainProgress)).check(matches(withText(R.string.task_failed)))
     }
 
