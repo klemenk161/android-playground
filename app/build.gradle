@@ -89,7 +89,7 @@ dependencies {
     // Instrumentation Tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'io.mockk:mockk-android:1.9.3'
+    androidTestImplementation 'io.mockk:mockk-android:1.10.3-jdk8'
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2'
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
 

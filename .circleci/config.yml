@@ -40,6 +40,7 @@ jobs:
           command: >
             sudo gcloud firebase test android run \
               --type instrumentation \
+              --device model=Pixel2,version=29
               --use-orchestrator \
               --app app/build/outputs/apk/dev/debug/app-dev-debug.apk \
               --test app/build/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk \
