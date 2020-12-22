@@ -19,6 +19,7 @@ jobs:
       - run:
           name: Run Detekt and check codebase
           command: |
+            chmod +x ./gradlew
             ./gradlew detekt
       - run:
           name: Build debug APK and debug-test APK
