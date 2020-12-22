@@ -6,17 +6,21 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/android:api-29
+      - image: google/cloud-sdk
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
+          name: Copy Google-Services JSON into App folder
+          command: |
+            echo $GOOGLE_SERVICES_JSON > app/google-services.json
+      - run:
           name: Run Detekt and check codebase
           command: |
             sudo chmod +x gradlew
-            ./gradlew detekt
+            ./gradlew :app:detekt
       - run:
           name: Build debug APK and debug-test APK
           command: |
