@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dev.klemen.android.playground.R
+import dev.klemen.android.playground.coroutines.AppDispatchers
 import dev.klemen.android.playground.data.TaskRunner
 import dev.klemen.android.playground.di.NetworkTasks
 import dev.klemen.android.playground.ui.base.BaseViewModel
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel @ViewModelInject constructor(
     application: Application,
+    private val appDispatchers: AppDispatchers,
     @NetworkTasks private val taskRunner: TaskRunner
 ) : BaseViewModel(application) {
 
@@ -22,7 +24,7 @@ class MainViewModel @ViewModelInject constructor(
 
     fun fetchData() {
         _mainText.value = getString(R.string.progress_fetching)
-        viewModelScope.launch {
+        viewModelScope.launch(appDispatchers.io) {
             val taskResult = taskRunner.runTask()
             _mainText.postValue(
                 getString(

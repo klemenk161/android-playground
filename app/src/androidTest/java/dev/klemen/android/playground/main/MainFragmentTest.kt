@@ -1,6 +1,8 @@
 package dev.klemen.android.playground.main
 
+import android.content.Intent
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -12,22 +14,18 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import dev.klemen.android.playground.R
-import dev.klemen.android.playground.TestActivity
-import dev.klemen.android.playground.data.NetworkTaskRunner
+import dev.klemen.android.playground.*
+import dev.klemen.android.playground.coroutines.AppDispatchers
 import dev.klemen.android.playground.data.TaskResult
 import dev.klemen.android.playground.data.TaskRunner
 import dev.klemen.android.playground.di.AppModule
 import dev.klemen.android.playground.di.NetworkTasks
-import dev.klemen.android.playground.ui.main.MainFragment
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -55,68 +53,62 @@ import javax.inject.Singleton
 class MainFragmentTest {
 
     @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+    val hiltRule = HiltAndroidRule(this)
 
     @Inject
     @NetworkTasks
     lateinit var mockNetworkRunner: TaskRunner
 
-    private val testDispatcher = TestCoroutineDispatcher()
+    @Inject
+    lateinit var mockAppDispatchers: AppDispatchers
 
-    private lateinit var scenario: ActivityScenario<TestActivity>
-    private lateinit var mainFragment: MainFragment
+    private lateinit var testDispatcher: TestCoroutineDispatcher
+
+    private val launchIntent = Intent(ApplicationProvider.getApplicationContext(), TestActivity::class.java)
+        .apply {
+            putExtra(TEST_ACTIVITY_KEY, TEST_FRAGMENT_MAIN)
+        }
 
     @Before
     fun setUp() {
         hiltRule.inject()
-        Dispatchers.setMain(testDispatcher)
-        scenario = ActivityScenario.launch(TestActivity::class.java)
-        mainFragment = MainFragment.newInstance()
+
+        testDispatcher = TestCoroutineDispatcher()
+        every { mockAppDispatchers.io } returns testDispatcher
     }
 
     @After
     fun tearDown() {
-        Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun correctSetup() = runBlockingTest {
-        arrange {
-            testDispatcher.pauseDispatcher()
-            coEvery { mockNetworkRunner.runTask() } returns TaskResult.Completed
-        }
+    fun correctSetup() {
+        coEvery { mockNetworkRunner.runTask() } coAnswers { delay(SIMULATED_NETWORK_DELAY); TaskResult.Completed }
+
+        testDispatcher.pauseDispatcher()
+        ActivityScenario.launch<TestActivity>(launchIntent)
 
         onView(withId(R.id.mainProgress)).check(matches(withText(R.string.progress_fetching)))
+        testDispatcher.advanceUntilIdle()
     }
 
     @Test
-    fun taskSuccessful() = runBlockingTest {
-        // Arrange
-        arrange { coEvery { mockNetworkRunner.runTask() } returns TaskResult.Success }
+    fun taskSuccessful() {
+        coEvery { mockNetworkRunner.runTask() } returns TaskResult.Success
 
-        // Act
-        testDispatcher.advanceUntilIdle()
+        ActivityScenario.launch<TestActivity>(launchIntent)
 
-        // Assert
         onView(withId(R.id.mainProgress)).check(matches(withText(R.string.task_success)))
     }
 
     @Test
-    fun taskFailed() = runBlockingTest {
-        // Arrange
-        arrange { coEvery { mockNetworkRunner.runTask() } returns TaskResult.Failure }
+    fun taskFailed() {
+        coEvery { mockNetworkRunner.runTask() } returns TaskResult.Failure
 
-        // Act
-        testDispatcher.advanceUntilIdle()
+        ActivityScenario.launch<TestActivity>(launchIntent)
 
-        // Assert
         onView(withId(R.id.mainProgress)).check(matches(withText(R.string.task_failed)))
-    }
-
-    private fun arrange(conditions: () -> Unit) = scenario.onActivity {
-        conditions()
-        it.addFragment(mainFragment)
     }
 
     @Module
@@ -126,6 +118,10 @@ class MainFragmentTest {
         @Singleton
         @Provides
         @NetworkTasks
-        fun provideMockTaskRunner(): TaskRunner = mockk<NetworkTaskRunner>()
+        fun provideMockTaskRunner(): TaskRunner = mockk()
+
+        @Singleton
+        @Provides
+        fun provideAppDispatchers(): AppDispatchers = mockk()
     }
 }

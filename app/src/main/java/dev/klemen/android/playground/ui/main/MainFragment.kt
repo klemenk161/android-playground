@@ -5,9 +5,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.klemen.android.playground.R
 import dev.klemen.android.playground.ui.base.BaseFragment
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 @AndroidEntryPoint
 class MainFragment : BaseFragment<MainViewModel>(MainViewModel::class, R.layout.fragment_main) {
 
@@ -28,6 +25,9 @@ class MainFragment : BaseFragment<MainViewModel>(MainViewModel::class, R.layout.
     }
 
     companion object {
+        private const val ARG_PARAM1 = "param1"
+        private const val ARG_PARAM2 = "param2"
+
         @JvmStatic fun newInstance(param1: String? = null, param2: String? = null) =
             MainFragment().apply {
                 arguments = Bundle().apply {
