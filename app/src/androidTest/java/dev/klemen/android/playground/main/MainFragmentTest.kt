@@ -14,7 +14,10 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import dev.klemen.android.playground.*
+import dev.klemen.android.playground.R
+import dev.klemen.android.playground.TEST_ACTIVITY_KEY
+import dev.klemen.android.playground.TEST_FRAGMENT_MAIN
+import dev.klemen.android.playground.TestActivity
 import dev.klemen.android.playground.coroutines.AppDispatchers
 import dev.klemen.android.playground.data.TaskResult
 import dev.klemen.android.playground.data.TaskRunner
@@ -24,7 +27,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.After
 import org.junit.Before
