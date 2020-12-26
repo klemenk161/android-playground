@@ -8,4 +8,9 @@
         android:id="@+id/homeFragment"
         android:name="dev.klemen.android.playground.ui.home.HomeFragment"
         android:label="HomeFragment" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="dev.klemen.android.playground.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>
