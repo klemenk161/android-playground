@@ -1,4 +1,4 @@
-package dev.klemen.android.playground.main
+package dev.klemen.android.playground.home
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -16,7 +16,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dev.klemen.android.playground.R
 import dev.klemen.android.playground.TEST_ACTIVITY_KEY
-import dev.klemen.android.playground.TEST_FRAGMENT_MAIN
+import dev.klemen.android.playground.TEST_FRAGMENT_HOME
 import dev.klemen.android.playground.TestActivity
 import dev.klemen.android.playground.coroutines.AppDispatchers
 import dev.klemen.android.playground.data.TaskResult
@@ -52,7 +52,7 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class MainFragmentTest {
+class HomeFragmentTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
@@ -68,7 +68,7 @@ class MainFragmentTest {
 
     private val launchIntent = Intent(ApplicationProvider.getApplicationContext(), TestActivity::class.java)
         .apply {
-            putExtra(TEST_ACTIVITY_KEY, TEST_FRAGMENT_MAIN)
+            putExtra(TEST_ACTIVITY_KEY, TEST_FRAGMENT_HOME)
         }
 
     @Before

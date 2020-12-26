@@ -1,4 +1,4 @@
-package dev.klemen.android.playground.ui.main
+package dev.klemen.android.playground.ui.home
 
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
@@ -12,7 +12,7 @@ import dev.klemen.android.playground.di.NetworkTasks
 import dev.klemen.android.playground.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-class MainViewModel @ViewModelInject constructor(
+class HomeViewModel @ViewModelInject constructor(
     application: Application,
     private val appDispatchers: AppDispatchers,
     @NetworkTasks private val taskRunner: TaskRunner
