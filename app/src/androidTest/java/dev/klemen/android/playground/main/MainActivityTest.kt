@@ -1,13 +1,12 @@
 package dev.klemen.android.playground.main
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dev.klemen.android.playground.R
 import dev.klemen.android.playground.ui.main.MainActivity
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,10 +16,10 @@ import org.junit.rules.RuleChain
 class MainActivityTest {
 
     private val hiltRule = HiltAndroidRule(this)
+    private val scenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @get:Rule
-    val ruleChain: RuleChain = RuleChain.outerRule(hiltRule)
-        .around(ActivityScenarioRule(MainActivity::class.java))
+    val ruleChain: RuleChain = RuleChain.outerRule(hiltRule).around(scenarioRule)
 
     @Before
     fun setUp() {
@@ -29,6 +28,6 @@ class MainActivityTest {
 
     @Test
     fun correctSetup() {
-        onView(withId(R.id.mainFragmentContainer)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        assertEquals(scenarioRule.scenario.state, Lifecycle.State.RESUMED)
     }
 }
