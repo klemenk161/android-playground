@@ -6,6 +6,4 @@ import dev.klemen.android.playground.ui.base.BaseViewModel
 
 class ProfileViewModel @ViewModelInject constructor(
     application: Application
-) : BaseViewModel(application) {
-
-}
+) : BaseViewModel(application)

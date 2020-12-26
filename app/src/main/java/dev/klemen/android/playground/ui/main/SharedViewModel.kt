@@ -14,7 +14,4 @@ import kotlinx.coroutines.launch
 
 class SharedViewModel @ViewModelInject constructor(
     application: Application
-) : BaseViewModel(application) {
-
-
-}
+) : BaseViewModel(application)

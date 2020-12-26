@@ -6,6 +6,4 @@ import androidx.lifecycle.AndroidViewModel
 
 class LearnViewModel @ViewModelInject constructor(
     application: Application
-) : AndroidViewModel(application) {
-
-}
+) : AndroidViewModel(application)
