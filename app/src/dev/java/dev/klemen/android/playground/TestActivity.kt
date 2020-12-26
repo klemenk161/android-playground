@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.klemen.android.playground.ui.home.HomeFragment
+import dev.klemen.android.playground.ui.learn.LearnFragment
 import dev.klemen.android.playground.ui.profile.ProfileFragment
 
 const val TEST_ACTIVITY_KEY = "TestActivityTag"
 const val TEST_ACTIVITY_BUNDLE = "TestActivityBundle"
 
 const val TEST_FRAGMENT_HOME = "dev.klemen.android.playground.ui.home.HomeFragment"
+const val TEST_FRAGMENT_LEARN = "dev.klemen.android.playground.ui.learn.LearnFragment"
 const val TEST_FRAGMENT_PROFILE = "dev.klemen.android.playground.ui.profile.ProfileFragment"
 
 /**
@@ -28,6 +30,7 @@ class TestActivity : AppCompatActivity() {
 
         val fragment = when(val fragmentTag = intent.getStringExtra(TEST_ACTIVITY_KEY)) {
             TEST_FRAGMENT_HOME -> HomeFragment.newInstance()
+            TEST_FRAGMENT_LEARN -> LearnFragment()
             TEST_FRAGMENT_PROFILE -> ProfileFragment()
             else -> throw NoSuchElementException("No such fragment: $fragmentTag")
         }

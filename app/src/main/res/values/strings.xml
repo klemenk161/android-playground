@@ -4,6 +4,7 @@
 
     <string name="bottom_nav_home" translatable="true">Home</string>
     <string name="bottom_nav_profile" translatable="true">Profile</string>
+    <string name="bottom_nav_learn" translatable="true">Learn</string>
 
     <string name="progress_fetching" translatable="true">Fetching…</string>
 
