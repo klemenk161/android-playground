@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.klemen.android.playground.R
 import dev.klemen.android.playground.databinding.ActivityMainBinding
+import dev.klemen.android.playground.ui.home.HomeFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun mainSetup() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.mainFragmentContainer, MainFragment.newInstance())
+            .add(R.id.mainFragmentContainer, HomeFragment.newInstance())
             .commitNow()
     }
 }

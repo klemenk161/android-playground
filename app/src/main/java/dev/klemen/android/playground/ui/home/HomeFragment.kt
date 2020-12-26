@@ -1,4 +1,4 @@
-package dev.klemen.android.playground.ui.main
+package dev.klemen.android.playground.ui.home
 
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
@@ -6,7 +6,7 @@ import dev.klemen.android.playground.R
 import dev.klemen.android.playground.ui.base.BaseFragment
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment<MainViewModel>(MainViewModel::class, R.layout.fragment_main) {
+class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class, R.layout.fragment_home) {
 
     private var param1: String? = null
     private var param2: String? = null
@@ -29,7 +29,7 @@ class MainFragment : BaseFragment<MainViewModel>(MainViewModel::class, R.layout.
         private const val ARG_PARAM2 = "param2"
 
         @JvmStatic fun newInstance(param1: String? = null, param2: String? = null) =
-            MainFragment().apply {
+            HomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

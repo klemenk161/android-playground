@@ -1,4 +1,4 @@
-package dev.klemen.android.playground.main
+package dev.klemen.android.playground.home
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -52,7 +52,7 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class MainFragmentTest {
+class HomeFragmentTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
