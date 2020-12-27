@@ -67,7 +67,6 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     def nav_version = "2.3.2"
 
     // AndroidX
