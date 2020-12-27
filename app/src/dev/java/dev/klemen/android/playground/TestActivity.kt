@@ -3,7 +3,9 @@ package dev.klemen.android.playground
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import dev.klemen.android.playground.ui.home.AvailablePageFragment
 import dev.klemen.android.playground.ui.home.HomeFragment
+import dev.klemen.android.playground.ui.home.ProgressPageFragment
 import dev.klemen.android.playground.ui.learn.LearnFragment
 import dev.klemen.android.playground.ui.profile.ProfileFragment
 
@@ -11,6 +13,9 @@ const val TEST_ACTIVITY_KEY = "TestActivityTag"
 const val TEST_ACTIVITY_BUNDLE = "TestActivityBundle"
 
 const val TEST_FRAGMENT_HOME = "dev.klemen.android.playground.ui.home.HomeFragment"
+const val TEST_PAGE_HOME_AVAILABLE = "dev.klemen.android.playground.ui.home.AvailablePageFragment"
+const val TEST_PAGE_HOME_PROGRESS = "dev.klemen.android.playground.ui.home.ProgressPageFragment"
+
 const val TEST_FRAGMENT_LEARN = "dev.klemen.android.playground.ui.learn.LearnFragment"
 const val TEST_FRAGMENT_PROFILE = "dev.klemen.android.playground.ui.profile.ProfileFragment"
 
@@ -29,7 +34,9 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test)
 
         val fragment = when(val fragmentTag = intent.getStringExtra(TEST_ACTIVITY_KEY)) {
-            TEST_FRAGMENT_HOME -> HomeFragment.newInstance()
+            TEST_FRAGMENT_HOME -> HomeFragment()
+            TEST_PAGE_HOME_AVAILABLE -> AvailablePageFragment()
+            TEST_PAGE_HOME_PROGRESS -> ProgressPageFragment()
             TEST_FRAGMENT_LEARN -> LearnFragment()
             TEST_FRAGMENT_PROFILE -> ProfileFragment()
             else -> throw NoSuchElementException("No such fragment: $fragmentTag")
