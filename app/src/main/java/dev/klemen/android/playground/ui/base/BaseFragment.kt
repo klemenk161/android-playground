@@ -11,6 +11,7 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.ViewModel
+import dev.klemen.android.playground.databinding.FragmentHomeBinding
 import kotlin.reflect.KClass
 
 /**
@@ -20,11 +21,12 @@ import kotlin.reflect.KClass
  * @param viewModelKClass ViewModel class, required for lazily creating the ViewModel.
  * @param layoutId Fragment's LayoutRes id to inflate the layout and create the DataBinding.
  */
-abstract class BaseFragment<VM : ViewModel>(
+abstract class BaseFragment<VM : ViewModel, T: ViewDataBinding>(
     viewModelKClass: KClass<VM>,
     @LayoutRes private val layoutId: Int
 ) : Fragment() {
 
+    protected lateinit var binding: T
     protected val viewModel by createViewModelLazy(viewModelKClass, { viewModelStore })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,11 +35,11 @@ abstract class BaseFragment<VM : ViewModel>(
             2. Attach the Fragment as the lifecycleOwner.
             3. Set generic viewModel variable, which every BaseFragment dataBinding will contain.
         */
-        return DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, container, false)
+        binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
             .apply {
                 lifecycleOwner = this@BaseFragment
                 setVariable(BR.viewModel, viewModel)
             }
-            .root
+        return binding.root
     }
 }

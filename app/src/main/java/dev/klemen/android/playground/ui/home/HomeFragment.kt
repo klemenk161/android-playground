@@ -1,39 +1,49 @@
 package dev.klemen.android.playground.ui.home
 
 import android.os.Bundle
+import android.view.View
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import dev.klemen.android.playground.R
+import dev.klemen.android.playground.databinding.FragmentHomeBinding
+import dev.klemen.android.playground.extensions.setup
 import dev.klemen.android.playground.ui.base.BaseFragment
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<HomeViewModel>(HomeViewModel::class, R.layout.fragment_home) {
+class HomeFragment :
+    BaseFragment<HomeViewModel, FragmentHomeBinding>(
+        HomeViewModel::class,
+        R.layout.fragment_home
+    ) {
 
-    private var param1: String? = null
-    private var param2: String? = null
+    @Inject
+    lateinit var basePagerAdapter: FragmentStateAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewPager()
+        setupTabs()
+    }
+
+    private fun setupViewPager() {
+        binding.homeViewPager.setup {
+            adapter = basePagerAdapter
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.fetchData()
-    }
-
-    companion object {
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        @JvmStatic fun newInstance(param1: String? = null, param2: String? = null) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun setupTabs() {
+        TabLayoutMediator(binding.homeTabs, binding.homeViewPager) { tab, position ->
+            tab.setup {
+                val tabData = when(position) {
+                    0 -> R.string.home_tab_available to R.drawable.ic_ok
+                    1 -> R.string.home_tab_progress to R.drawable.ic_progress
+                    else -> throw NoSuchElementException("No tab at position: $position.")
                 }
+                setText(tabData.first)
+                setIcon(tabData.second)
             }
+        }.attach()
     }
 }

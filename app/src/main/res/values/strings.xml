@@ -8,6 +8,10 @@
 
     <string name="progress_fetching" translatable="true">Fetching…</string>
 
+    <!-- HOME FRAGMENT -->
+    <string name="home_tab_available" translatable="true">Available</string>
+    <string name="home_tab_progress" translatable="true">Progress</string>
+
     <string name="task_success" translatable="true">Task Completed Successfully!</string>
     <string name="task_failed" translatable="true">Task Failed!</string>
 
